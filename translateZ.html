@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+	<style>
+		body {
+			perspective: 1000px;
+		}
+		/* .top {
+			top:0;
+			background: white;
+			width: 100vw;
+			height: 10vh;
+		}
+
+		.bottom {
+			bottom:0;
+			background: white;
+			width: 100vw;
+			height: 10vh;
+		} */
+
+		body {
+			overflow: hidden;
+
+		}
+
+		.house {
+			position:relative;
+			width: 100vw;
+			/* height: 80vh; */
+		}
+
+		.header {
+			height: 10vh;
+			background-color: black;
+			color: white;
+			text-align: center;
+			font-size: 2rem;
+			margin: 0px;
+		}
+
+		.footer {
+			height: 20vh;
+			background-color: black;
+			color: white;
+			text-align: center;
+			font-size: 2rem;
+		}
+
+		.wall {
+			position: absolute;
+			left: 0;
+			top: 0;
+			width: 100vw;
+			height: 60vh;
+			background-image: url("./images/6590406.jpg");
+			/* background-color: yellow; */
+	    background-size: cover;
+			background-position: center;
+			transform: translateZ(-100vw);
+			transform-style: preserve-3d;
+		}
+		.box {
+			position: relative;
+			left: 0;
+			top: 0;
+			width: 5px;
+			height: 5px;
+			background: red;
+			transform: translateZ(-100vw);
+    }
+    .door {
+      position: relative;
+      left: 0;
+      top: 0;
+      width: 100vw;
+      height:60vh;
+      /* background: rgba(255, 255, 255, 0.8); */
+      background-image: url("./images/stone_wall.png");
+      background-size: cover;
+			background-position: center;
+    }
+
+	</style>
+</head>
+<body>
+	<div class="header">
+		<span>header</span>
+	</div>
+	<div class="house">
+		<div class="wall"></div>
+		<div class="box"></div>
+		<div class="door"></div>
+	 </div>
+	 <div class="footer">
+	 	<span>footer</span>
+	 </div>
+
+	<script>
+		const box = document.querySelector('.box');
+		const wall = document.querySelector('.wall');
+
+		const boxRect = box.getBoundingClientRect();
+		const wallRect = wall.getBoundingClientRect();
+
+		// 크기 비율
+		const sizeRatio = wallRect.width / window.innerWidth;
+
+		window.addEventListener('click', e => {
+			// 노란 박스 내부를 클릭했을 경우에만 실행
+			if (
+				e.clientX > wallRect.left &&
+				e.clientX < wallRect.right &&
+				e.clientY > wallRect.top &&
+				e.clientY < wallRect.bottom
+			) {
+				console.log('노란 박스 내부 클릭');
+        console.log('boxRect: '+JSON.stringify(boxRect));
+        console.log('wallRect: '+JSON.stringify(wallRect));
+        console.log('sizeRatio(fixed): '+sizeRatio);
+				const xPos = (e.clientX - wallRect.left) / sizeRatio;
+				const yPos = (e.clientY - wallRect.top) / sizeRatio;
+				box.style.transform = `translate3d(${xPos}px, ${yPos}px, -100vw)`;
+        console.log('xPos: '+xPos);
+        console.log('yPos: '+yPos);
+			}
+		});
+	</script>
+</body>
+</html>
